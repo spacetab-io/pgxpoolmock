@@ -74,11 +74,25 @@ func TestTx(t *testing.T) {
 	mockPool.EXPECT().QueryRow(gomock.Any(), "blah").Return(
 		pgxpoolmock.NewRow("1"))
 	row := tx.QueryRow(context.Background(), "blah")
-	assert.NoError(t, err)
 	var s string
-	row.Scan(&s)
+	err = row.Scan(&s)
+	assert.NoError(t, err)
 	assert.EqualValues(t, s, "1")
 
 	mockPool.EXPECT().Rollback(gomock.Any()).Return(nil)
 	assert.NoError(t, tx.Rollback(context.Background()))
+}
+
+func TestQueryMatcher(t *testing.T) {
+	t.Parallel()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockPool := pgxpoolmock.NewMockPgxIface(ctrl)
+
+	mockPool.EXPECT().QueryRow(gomock.Any(), pgxpoolmock.QueryContains("blah")).Return(
+		pgxpoolmock.NewRow("1"))
+	row := mockPool.QueryRow(context.Background(), "SELECT blah FROM some_table;")
+	var s string
+	err := row.Scan(&s)
+	assert.NoError(t, err)
 }
