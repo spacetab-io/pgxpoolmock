@@ -6,7 +6,7 @@ I also strongly recommend you use `pgxpool` rather than `pgx` only. see https://
 ### How to install
 
 ```
-go get -u github.com/driftprogramming/pgxpoolmock
+go get -u github.com/chrisyxlee/pgxpoolmock
 ```
 
 ### How to Use
@@ -18,8 +18,8 @@ package pgxpoolmock_test
 import (
 	"testing"
 
-	"github.com/driftprogramming/pgxpoolmock"
-	"github.com/driftprogramming/pgxpoolmock/testdata"
+	"github.com/chrisyxlee/pgxpoolmock"
+	"github.com/chrisyxlee/pgxpoolmock/testdata"
 	"github.com/golang/mock/gomock"
 	"github.com/stretchr/testify/assert"
 )
