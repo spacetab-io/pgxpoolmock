@@ -6,3 +6,7 @@ bin/mockgen:
 .PHONY: mock
 mock: bin/mockgen
 	@mockgen -source=pgx.go -destination=pgx_mock.go -package=pgxpoolmock
+
+.PHONY: test
+test:
+	go test -v ./...
