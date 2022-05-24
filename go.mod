@@ -7,7 +7,7 @@ require (
 	github.com/jackc/pgconn v1.8.1
 	github.com/jackc/pgproto3/v2 v2.0.6
 	github.com/jackc/pgx/v4 v4.11.0
-	github.com/stretchr/testify v1.5.1
+	github.com/stretchr/testify v1.7.1
 )
 
 require (
@@ -21,5 +21,5 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/text v0.3.3 // indirect
-	gopkg.in/yaml.v2 v2.2.2 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
