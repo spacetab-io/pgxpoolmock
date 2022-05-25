@@ -1,8 +1,16 @@
 package pgxpoolmock
 
 import (
+	"fmt"
+
 	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
+)
+
+var (
+	// Use the error to signify the end of a batch result.
+	ErrEndBatchResult = fmt.Errorf("batch already closed")
+	ErrNoBatchResult  = fmt.Errorf("no result")
 )
 
 // BatchResults is the same interface as pgx.BatchResults, placed here for mocking.

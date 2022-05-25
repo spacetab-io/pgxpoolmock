@@ -112,7 +112,7 @@ func TestBatchResults(t *testing.T) {
 	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(1)))
 	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(2)))
 	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(3)))
-	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(0)).WithError(fmt.Errorf("no result")))
+	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(0)).WithError(pgxpoolmock.ErrEndBatchResult))
 
 	q := sqlc.New(mockPool)
 	var inserted int32
