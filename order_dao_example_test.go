@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/chrisyxlee/pgxpoolmock"
+	"github.com/chrisyxlee/pgxpoolmock/sqlc"
 	"github.com/chrisyxlee/pgxpoolmock/testdata"
 	"github.com/golang/mock/gomock"
 	"github.com/jackc/pgx/v4"
@@ -95,4 +96,30 @@ func TestQueryMatcher(t *testing.T) {
 	var s string
 	err := row.Scan(&s)
 	assert.NoError(t, err)
+}
+
+func TestBatchResults(t *testing.T) {
+	t.Parallel()
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+	mockPool := pgxpoolmock.NewMockPgxIface(ctrl)
+	mockBatch := pgxpoolmock.NewMockBatchResults(ctrl)
+
+	// Unfortunately pgx.Batch isn't passed as an interface, so there's no way to mock the
+	// intermediate data. The best bet is probably to separate the data creation and handling
+	// into a separate function to test separately.
+	mockPool.EXPECT().SendBatch(gomock.Any(), gomock.Any()).Return(mockBatch)
+	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(1)))
+	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(2)))
+	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(3)))
+	mockBatch.EXPECT().QueryRow().Return(pgxpoolmock.NewRow(int32(0)).WithError(fmt.Errorf("no result")))
+
+	q := sqlc.New(mockPool)
+	var inserted int32
+	q.InsertAuthors(context.Background(), []string{"a", "b", "c"}).QueryRow(func(i int, authorID int32, err error) {
+		inserted++
+		assert.Equal(t, inserted, authorID)
+		assert.NoError(t, err)
+	})
+	assert.Equal(t, int32(3), inserted)
 }
