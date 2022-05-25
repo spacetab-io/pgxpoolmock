@@ -11,10 +11,19 @@ import (
 // Usage: pgxMock.EXPECT().QueryRow(gomock.Any(), HasString("GetEntityByID")).Return(NewRow(1, "foo"))
 type Row struct {
 	values []interface{}
+	err    error
 }
 
 func NewRow(values ...interface{}) *Row {
-	return &Row{values: values}
+	return &Row{
+		values: values,
+		err:    nil,
+	}
+}
+
+func (r *Row) WithError(err error) *Row {
+	r.err = err
+	return r
 }
 
 func (r *Row) Scan(dest ...interface{}) error {
@@ -44,5 +53,5 @@ func (r *Row) Scan(dest ...interface{}) error {
 
 		innerDstRV.Set(valueRV)
 	}
-	return nil
+	return r.err
 }
