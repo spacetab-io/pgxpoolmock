@@ -5,3 +5,4 @@ vendor
 tests.mk
 linter.mk
 .golangci_v*.yml
+c.out

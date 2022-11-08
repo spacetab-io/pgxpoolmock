@@ -1,4 +1,4 @@
-module github.com/chrisyxlee/pgxpoolmock
+module github.com/spacetab-io/pgxpoolmock
 
 go 1.18
 

@@ -1,13 +1,13 @@
 ### PGX POOL MOCK
 
-This repo provides a mock of `pgxpool.Pool`, `pgx.Tx`, and `pgx.BatchResult` from https://github.com/jackc/pgx so that you can test your data access code locally without using a real database.
+This repo provides a mock of `pgxpool.Pool`, `pgx.Tx`, and `pgx.BatchResult` from https://github.com/jackc/pgx/v5 so that you can test your data access code locally without using a real database.
 
-I forked this from https://www.github.com/driftprogramming/pgxpoolmock to add support for transactions and batch sends with `pgxpool.Pool`.
+It was forked from https://www.github.com/chrisyxlee/pgxpoolmock to add support for transactions and batch sends with `pgxpool.Pool` and `pgx/v5`.
 
 ### How to install
 
 ```
-go get -u github.com/chrisyxlee/pgxpoolmock
+go get -u github.com/spacetab-io/pgxpoolmock
 ```
 
 ### How to Use
@@ -22,9 +22,9 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/chrisyxlee/pgxpoolmock"
-	"github.com/chrisyxlee/pgxpoolmock/sqlc"
-	"github.com/chrisyxlee/pgxpoolmock/testdata"
+	"github.com/spacetab-io/pgxpoolmock"
+	"github.com/spacetab-io/pgxpoolmock/sqlc"
+	"github.com/spacetab-io/pgxpoolmock/testdata"
 	"github.com/golang/mock/gomock"
 	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
