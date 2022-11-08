@@ -9,8 +9,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	pgconn "github.com/jackc/pgconn"
-	pgx "github.com/jackc/pgx/v4"
+	pgx "github.com/jackc/pgx/v5"
+	pgconn "github.com/jackc/pgx/v5/pgconn"
 )
 
 // MockPgxIface is a mock of PgxIface interface.
@@ -150,7 +150,7 @@ func (mr *MockPgxIfaceMockRecorder) CopyFrom(ctx, tableName, columnName, rowSvc 
 }
 
 // Exec mocks base method.
-func (m *MockPgxIface) Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error) {
+func (m *MockPgxIface) Exec(ctx context.Context, sql string, arguments ...any) (pgconn.CommandTag, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, sql}
 	for _, a := range arguments {
@@ -199,7 +199,7 @@ func (mr *MockPgxIfaceMockRecorder) Prepare(ctx, name, sql interface{}) *gomock.
 }
 
 // Query mocks base method.
-func (m *MockPgxIface) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
+func (m *MockPgxIface) Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error) {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, sql}
 	for _, a := range args {
@@ -218,23 +218,8 @@ func (mr *MockPgxIfaceMockRecorder) Query(ctx, sql interface{}, args ...interfac
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Query", reflect.TypeOf((*MockPgxIface)(nil).Query), varargs...)
 }
 
-// QueryFunc mocks base method.
-func (m *MockPgxIface) QueryFunc(ctx context.Context, sql string, args, scans []interface{}, f func(pgx.QueryFuncRow) error) (pgconn.CommandTag, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryFunc", ctx, sql, args, scans, f)
-	ret0, _ := ret[0].(pgconn.CommandTag)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryFunc indicates an expected call of QueryFunc.
-func (mr *MockPgxIfaceMockRecorder) QueryFunc(ctx, sql, args, scans, f interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFunc", reflect.TypeOf((*MockPgxIface)(nil).QueryFunc), ctx, sql, args, scans, f)
-}
-
 // QueryRow mocks base method.
-func (m *MockPgxIface) QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row {
+func (m *MockPgxIface) QueryRow(ctx context.Context, sql string, args ...any) pgx.Row {
 	m.ctrl.T.Helper()
 	varargs := []interface{}{ctx, sql}
 	for _, a := range args {

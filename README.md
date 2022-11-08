@@ -26,7 +26,7 @@ import (
 	"github.com/chrisyxlee/pgxpoolmock/sqlc"
 	"github.com/chrisyxlee/pgxpoolmock/testdata"
 	"github.com/golang/mock/gomock"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -141,3 +141,11 @@ func TestBatchResults(t *testing.T) {
 	assert.Equal(t, int32(3), inserted)
 }
 ```
+### How to test
+
+    make tests
+
+
+### Check code style
+
+    make lint

@@ -1,2 +1,7 @@
 bin/
 .vscode/
+.idea
+vendor
+tests.mk
+linter.mk
+.golangci_v*.yml

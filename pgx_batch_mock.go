@@ -8,8 +8,8 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	pgconn "github.com/jackc/pgconn"
-	pgx "github.com/jackc/pgx/v4"
+	pgx "github.com/jackc/pgx/v5"
+	pgconn "github.com/jackc/pgx/v5/pgconn"
 )
 
 // MockBatchResults is a mock of BatchResults interface.
@@ -77,21 +77,6 @@ func (m *MockBatchResults) Query() (pgx.Rows, error) {
 func (mr *MockBatchResultsMockRecorder) Query() *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Query", reflect.TypeOf((*MockBatchResults)(nil).Query))
-}
-
-// QueryFunc mocks base method.
-func (m *MockBatchResults) QueryFunc(scans []interface{}, f func(pgx.QueryFuncRow) error) (pgconn.CommandTag, error) {
-	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "QueryFunc", scans, f)
-	ret0, _ := ret[0].(pgconn.CommandTag)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
-}
-
-// QueryFunc indicates an expected call of QueryFunc.
-func (mr *MockBatchResultsMockRecorder) QueryFunc(scans, f interface{}) *gomock.Call {
-	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "QueryFunc", reflect.TypeOf((*MockBatchResults)(nil).QueryFunc), scans, f)
 }
 
 // QueryRow mocks base method.

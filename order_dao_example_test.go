@@ -9,13 +9,14 @@ import (
 	"github.com/chrisyxlee/pgxpoolmock/sqlc"
 	"github.com/chrisyxlee/pgxpoolmock/testdata"
 	"github.com/golang/mock/gomock"
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v5"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestName(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
+
 	defer ctrl.Finish()
 
 	// given
@@ -23,6 +24,7 @@ func TestName(t *testing.T) {
 	columns := []string{"id", "price"}
 	pgxRows := pgxpoolmock.NewRows(columns).AddRow(100, 100000.9).ToPgxRows()
 	mockPool.EXPECT().Query(gomock.Any(), gomock.Any(), gomock.Any()).Return(pgxRows, nil)
+
 	orderDao := testdata.OrderDAO{
 		Pool: mockPool,
 	}
@@ -39,6 +41,7 @@ func TestName(t *testing.T) {
 func TestMap(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
+
 	defer ctrl.Finish()
 
 	// given
@@ -48,6 +51,7 @@ func TestMap(t *testing.T) {
 	assert.NotEqual(t, "with empty rows", fmt.Sprintf("%s", pgxRows))
 
 	mockPool.EXPECT().Query(gomock.Any(), gomock.Any(), gomock.Any()).Return(pgxRows, nil)
+
 	orderDao := testdata.OrderDAO{
 		Pool: mockPool,
 	}
@@ -64,7 +68,9 @@ func TestMap(t *testing.T) {
 func TestTx(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
+
 	defer ctrl.Finish()
+
 	mockPool := pgxpoolmock.NewMockPgxIface(ctrl)
 
 	// begin tx - given
@@ -74,8 +80,11 @@ func TestTx(t *testing.T) {
 
 	mockPool.EXPECT().QueryRow(gomock.Any(), "blah").Return(
 		pgxpoolmock.NewRow("1"))
+
 	row := tx.QueryRow(context.Background(), "blah")
+
 	var s string
+
 	err = row.Scan(&s)
 	assert.NoError(t, err)
 	assert.EqualValues(t, s, "1")
@@ -87,13 +96,18 @@ func TestTx(t *testing.T) {
 func TestQueryMatcher(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
+
 	defer ctrl.Finish()
+
 	mockPool := pgxpoolmock.NewMockPgxIface(ctrl)
 
 	mockPool.EXPECT().QueryRow(gomock.Any(), pgxpoolmock.QueryContains("blah")).Return(
 		pgxpoolmock.NewRow("1"))
+
 	row := mockPool.QueryRow(context.Background(), "SELECT blah FROM some_table;")
+
 	var s string
+
 	err := row.Scan(&s)
 	assert.NoError(t, err)
 }
@@ -101,7 +115,9 @@ func TestQueryMatcher(t *testing.T) {
 func TestBatchResults(t *testing.T) {
 	t.Parallel()
 	ctrl := gomock.NewController(t)
+
 	defer ctrl.Finish()
+
 	mockPool := pgxpoolmock.NewMockPgxIface(ctrl)
 	mockBatch := pgxpoolmock.NewMockBatchResults(ctrl)
 

@@ -1,16 +1,8 @@
 package pgxpoolmock
 
 import (
-	"fmt"
-
-	"github.com/jackc/pgconn"
-	"github.com/jackc/pgx/v4"
-)
-
-var (
-	// Use the error to signify the end of a batch result.
-	ErrEndBatchResult = fmt.Errorf("batch already closed")
-	ErrNoBatchResult  = fmt.Errorf("no result")
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 )
 
 // BatchResults is the same interface as pgx.BatchResults, placed here for mocking.
@@ -19,6 +11,6 @@ type BatchResults interface {
 	Exec() (pgconn.CommandTag, error)
 	Query() (pgx.Rows, error)
 	QueryRow() pgx.Row
-	QueryFunc(scans []interface{}, f func(pgx.QueryFuncRow) error) (pgconn.CommandTag, error)
+	// QueryFunc(scans []interface{}, f func(pgx.QueryFuncRow) error) (pgconn.CommandTag, error)
 	Close() error
 }

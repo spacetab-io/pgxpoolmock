@@ -4,12 +4,12 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 func main() {
 	connectionString := getConnectionString()
-	realPool, _ := pgxpool.Connect(context.Background(), connectionString)
+	realPool, _ := pgxpool.New(context.Background(), connectionString)
 	orderDao := OrderDAO{
 		Pool: realPool,
 	}

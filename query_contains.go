@@ -13,7 +13,7 @@ import (
 // SQL query string argument since SQLC generated code will contain the associated function
 // name as well.
 //
-// Usage: pgxMock.EXPECT().QueryRow(gomock.Any(), QueryContains("GetSomething")).Return(NewRow(1, "foo"))
+// Usage: pgxMock.EXPECT().QueryRow(gomock.Any(), QueryContains("GetSomething")).Return(NewRow(1, "foo")).
 type QueryContainsMatcher struct{ re *regexp.Regexp }
 
 func QueryContains(s string) gomock.Matcher {
@@ -23,7 +23,12 @@ func QueryContains(s string) gomock.Matcher {
 }
 
 func (m *QueryContainsMatcher) Matches(x interface{}) bool {
-	return m.re.MatchString(x.(string))
+	str, ok := x.(string)
+	if !ok {
+		return false
+	}
+
+	return m.re.MatchString(str)
 }
 
 func (m *QueryContainsMatcher) String() string {
